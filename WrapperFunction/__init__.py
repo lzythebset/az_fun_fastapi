@@ -56,10 +56,7 @@ async def get_chat(chat: str):
     "temperature": 0
     }
     r = requests.post(url=u, headers=h, json=d, verify=False, timeout = 500).json()
-    res = r['choices'][0]['message']['content']
-    return {
-        "chat": res,
-    }
+    return r['choices'][0]['message']['content']
 
 async def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     return await func.AsgiMiddleware(app).handle_async(req, context)
