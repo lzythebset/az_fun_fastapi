@@ -42,21 +42,21 @@ async def get_translate(translate: str):
 
 h = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer $THEBEST_OPENAPI'
+    'Authorization': 'Bearer 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'
 }
-u = 'https://api.openai.com/v1/completions'
+u = 'https://api.openai.com/v1/chat/completions'
 
 
 @app.get("/chat/{chat}")
 async def get_chat(chat: str):
     d = {
-    "model": "gpt-3.5-turbo-0301",
-    "prompt": chat,
+    "model": "gpt-3.5-turbo",
+    "messages": [{"role": "user", "content": chat}],
     "max_tokens": 100,
     "temperature": 0
     }
     r = requests.post(url=u, headers=h, json=d, verify=False, timeout = 500).json()
-    res = r['choices'][0]['text']
+    res = r['choices'][0]['message']['content']
     return {
         "chat": res,
     }
