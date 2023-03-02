@@ -2,12 +2,14 @@ import logging
 import azure.functions as func
 from FastAPIApp import app  # Main API application
 import requests
-
-url = "https://aeona3.p.rapidapi.com/"
+# ###############
+url = "https://rapid-translate-multi-traduction.p.rapidapi.com/t"
 headers = {
+	"content-type": "application/json",
 	"X-RapidAPI-Key": "0dd8668bb4msh7d84ecd476335fep118479jsn6d1e00ff27b0",
-	"X-RapidAPI-Host": "aeona3.p.rapidapi.com"
+	"X-RapidAPI-Host": "rapid-translate-multi-traduction.p.rapidapi.com"
 }
+# ############### 
 
 @app.get("/sample")
 async def index():
@@ -24,8 +26,13 @@ async def get_name(name: str):
 
 @app.get("/chat/{chat}")
 async def get_chat(chat: str):
-    querystring = {"text":chat,"userId":"12312312312"}
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    payload = {
+	"from": "en",
+	"to": "zh",
+	"e": "",
+	"q": chat
+    }
+    response = requests.request("POST", url, json=payload, headers=headers, timeout = 30)
     return {
         "chat": response.text,
     }
