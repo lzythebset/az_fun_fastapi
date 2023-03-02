@@ -1,6 +1,7 @@
 import logging
 import azure.functions as func
 import requests
+import os
 from FastAPIApp import app  # Main API application
 
 # ############### 
@@ -42,10 +43,12 @@ async def get_translate(translate: str):
 
 h = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer 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'
+    'Authorization': 'Bearer '+os.environ.get("THEBEST_OPENAPI")
 }
 u = 'https://api.openai.com/v1/chat/completions'
-
+@app.get("/key")
+async def key():
+    return '00000000000'+os.environ.get("THEBEST_OPENAPI")+'0000000'
 
 @app.get("/chat/{chat}")
 async def get_chat(chat: str):
