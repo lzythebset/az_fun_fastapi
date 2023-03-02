@@ -2,7 +2,18 @@ import logging
 import azure.functions as func
 import requests
 import os
+from azure.keyvault.secrets import SecretClient
+from azure.identity import DefaultAzureCredential
 from FastAPIApp import app  # Main API application
+
+keyVaultName = "lzyapikey"
+KVUri = f"https://KV_NAME.vault.azure.net"
+
+credential = DefaultAzureCredential()
+client = SecretClient(vault_url=KVUri, credential=credential)
+openai_secret = client.get_secret("lzybestchatgptv2")
+
+
 
 # ############### 
 
@@ -43,12 +54,12 @@ async def get_translate(translate: str):
 
 h = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer '+os.environ.get("THEBEST_OPENAPI"),
+    'Authorization': 'Bearer '+openai_secret,
 }
 u = 'https://api.openai.com/v1/chat/completions'
 @app.get("/key")
 async def key():
-    return '00000000000'+os.environ.get("THEBEST_OPENAPI")+'0000000'
+    return '00000000000'+openai_secret+'0000000'
 
 @app.get("/chat/{chat}")
 async def get_chat(chat: str):
