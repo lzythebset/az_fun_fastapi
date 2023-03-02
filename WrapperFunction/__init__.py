@@ -55,5 +55,22 @@ async def get_chat(chat: str):
         "chat": completion.choices[0].message,
     }
 
+#friend chat
+
+
+@app.get("/friend_chat/{friend_chat}")
+async def get_friend_chat(friend_chat: str):
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt="You: What have you been up to?\nFriend: Watching old movies.\nYou: Did you watch anything interesting?" + friend_chat + "\nFriend:",
+        temperature=0.5,
+        max_tokens=60,
+        top_p=1.0,
+        frequency_penalty=0.5,
+        presence_penalty=0.0,
+        stop=["You:"]
+        )
+    return response
+
 async def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     return await func.AsgiMiddleware(app).handle_async(req, context)
