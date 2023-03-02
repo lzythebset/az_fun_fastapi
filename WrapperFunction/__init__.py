@@ -16,6 +16,11 @@ async def get_name(name: str):
         "name": name,
     }
 
+@app.get("/chat/{chat}")
+async def get_chat(name: str):
+    return {
+        "chat": name,
+    }
 
 async def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     return await func.AsgiMiddleware(app).handle_async(req, context)
