@@ -43,7 +43,7 @@ async def get_translate(translate: str):
 
 h = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer '+os.environ.get("THEBEST_OPENAPI")
+    'Authorization': 'Bearer '+os.environ.get("THEBEST_OPENAPI"),
 }
 u = 'https://api.openai.com/v1/chat/completions'
 @app.get("/key")
