@@ -1,7 +1,6 @@
 import logging
 import azure.functions as func
 import requests
-import openai
 from FastAPIApp import app  # Main API application
 
 # ############### 
@@ -41,36 +40,26 @@ async def get_translate(translate: str):
 
 # OpenAI
 
-openai.api_key = "$THEBEST_OPENAPI"
+h = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer $THEBEST_OPENAPI'
+}
+u = 'https://api.openai.com/v1/completions'
+
 
 @app.get("/chat/{chat}")
 async def get_chat(chat: str):
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": chat}
-        ]
-        )
-    return {
-        "chat": completion.choices[0].message,
+    d = {
+    "model": "gpt-3.5-turbo-0301",
+    "prompt": chat,
+    "max_tokens": 100,
+    "temperature": 0
     }
-
-#friend chat
-
-
-@app.get("/friend_chat/{friend_chat}")
-async def get_friend_chat(friend_chat: str):
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt="You: What have you been up to?\nFriend: Watching old movies.\nYou: Did you watch anything interesting?" + friend_chat + "\nFriend:",
-        temperature=0.5,
-        max_tokens=60,
-        top_p=1.0,
-        frequency_penalty=0.5,
-        presence_penalty=0.0,
-        stop=["You:"]
-        )
-    return response
+    r = requests.post(url=u, headers=h, json=d, verify=False, timeout = 500).json()
+    res = r['choices'][0]['text']
+    return {
+        "chat": res,
+    }
 
 async def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     return await func.AsgiMiddleware(app).handle_async(req, context)
