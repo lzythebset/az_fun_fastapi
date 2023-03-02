@@ -13,8 +13,6 @@ credential = DefaultAzureCredential()
 client = SecretClient(vault_url=KVUri, credential=credential)
 openai_secret = client.get_secret("lzybestchatgptv2")
 
-
-
 # ############### 
 
 @app.get("/sample")
