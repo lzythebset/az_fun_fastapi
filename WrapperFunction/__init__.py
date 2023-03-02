@@ -41,7 +41,7 @@ async def get_translate(translate: str):
 
 # OpenAI
 
-openai.api_key = "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"
+openai.api_key = "$THEBEST_OPENAPI"
 
 @app.get("/chat/{chat}")
 async def get_chat(chat: str):
