@@ -65,6 +65,6 @@ jobs:
           app-name: 'lzychatgpt'
           slot-name: 'Production'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E28A7B0AFD30404EB0ACC9C7E01C8FA5 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_52B47635EB2B4F14873FB9AE01B44B49 }}
           scm-do-build-during-deployment: true
           enable-oryx-build: true
