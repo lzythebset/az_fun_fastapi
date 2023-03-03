@@ -7,12 +7,12 @@ from azure.identity import DefaultAzureCredential
 from FastAPIApp import app  # Main API application
 
 keyVaultName = "lzyapikey"
-KVUri = f"https://KV_NAME.vault.azure.net"
+KVUri = f"https://lzyapikey.vault.azure.net"
 
 credential = DefaultAzureCredential()
 client = SecretClient(vault_url=KVUri, credential=credential)
 openai_secret = client.get_secret("lzybestchatgptv2")
-
+print(openai_secret)
 # ############### 
 
 @app.get("/sample")

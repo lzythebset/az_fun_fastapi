@@ -5,5 +5,5 @@
 azure-functions>=1.12.0
 fastapi
 requests
-azure-keyvault
+azure-keyvault-secrets
 azure-identity
